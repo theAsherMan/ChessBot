@@ -11,7 +11,7 @@ from threading import Lock
 
 class Board(chess.Board):
     def __init__(self, fen: Optional[str] = chess.STARTING_FEN, *, chess960: bool = False):
-        super().__init__(self, fen=fen, chess960=chess960)
+        super().__init__(fen=fen, chess960=chess960)
         self.lock = Lock()
     
     @property
