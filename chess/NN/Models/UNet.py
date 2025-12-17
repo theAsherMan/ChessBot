@@ -33,8 +33,8 @@ class UNet(Module):
 
 class _SubNet(UNet):
     def __init__(self, channels, half_depth, sub_net_depth):
-        self.down_sampler = ConvolutionalLayer(in_channels=channels, down_sample=True)
         super().__init__(channels=2*channels, half_depth=half_depth, sub_net_depth=sub_net_depth)
+        self.down_sampler = ConvolutionalLayer(in_channels=channels, down_sample=True)
         self.up_sampler = ConvolutionalLayer(in_channels=2*channels, up_sample=True)
     
     def forward(self, data:Tensor):
