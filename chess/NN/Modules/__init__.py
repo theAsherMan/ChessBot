@@ -1,2 +1,2 @@
-from Perceptron import Perceptron
-from ConvolutionalLayer import ConvolutionalLayer
+from .Perceptron import Perceptron
+from .ConvolutionalLayer import ConvolutionalLayer

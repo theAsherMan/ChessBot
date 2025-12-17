@@ -1,1 +1,1 @@
-from CircularStack import CircularStack
+from .CircularStack import CircularStack

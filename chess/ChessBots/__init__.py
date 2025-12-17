@@ -1,1 +1,1 @@
-from ChessEngine import ChessEngine,ZeroDepthEngine
+from .ChessEngine import ChessEngine,ZeroDepthEngine

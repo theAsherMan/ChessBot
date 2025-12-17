@@ -1,1 +1,1 @@
-from SimpleUNet import SimpleUNet
+from .SimpleUNet import SimpleUNet

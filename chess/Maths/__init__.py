@@ -1,1 +1,1 @@
-from Prime import primes,primeDecomposition,isComposite,primeAtIdx
+from .Prime import primes,primeDecomposition,isComposite,primeAtIdx
