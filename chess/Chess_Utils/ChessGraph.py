@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 import sys
 sys.path.append('..')
-from __future__ import annotations
+
 
 from dataclasses import dataclass, field, fields
 
