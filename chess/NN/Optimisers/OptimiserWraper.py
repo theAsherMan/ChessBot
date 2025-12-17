@@ -4,7 +4,7 @@ sys.path.append('..')
 from NN.Devices import available_devices
 import torch
 
-if torch.device('tpu') in available_devices:
+if torch.device('xla') in available_devices:
     import torch_xla.core.xla_model as xm
 
 class OptimiserWraper:
@@ -17,7 +17,7 @@ class OptimiserWraper:
         self.step()
     
     def step(self, zero_grad:bool = True):
-        if self.device == torch.device('tpu'):
+        if self.device == torch.device('xla'):
             xm.optimizer_step(self.optim)
         else:
             self.optim.step()
