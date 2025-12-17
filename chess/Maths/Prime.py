@@ -1,10 +1,10 @@
 import sys
 sys.path.append('..')
 
-import ThreadingUtils
+from threading import Lock
 
 class _Prime_private:
-    lock = ThreadingUtils.Lock()
+    lock = Lock()
     array = [2]
 
     @classmethod

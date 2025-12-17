@@ -1,9 +1,9 @@
 import sys
 sys.path.append('..')
 
-from .NN.Models import UNet,ResNet
-from .NN.Modules import Perceptron,ConvolutionalLayer
-from .NN.Optimisers import OptimiserWraper
+from NN.Models import UNet,ResNet
+from NN.Modules import Perceptron,ConvolutionalLayer
+from NN.Optimisers import OptimiserWraper
 
 import torch
 from torch import Tensor
@@ -18,7 +18,7 @@ from pathlib import Path
 
 from chess import COLORS, PIECE_TYPES, SQUARES, square_rank, square_file
 
-from .Chess_Utils import Board,CastlingRights,Move
+from Chess_Utils import Board,CastlingRights,Move
 
 class Tensorfier:
     def __init__(self):
