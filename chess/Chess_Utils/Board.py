@@ -5,9 +5,9 @@ import chess
 
 from .CastlingRights import CastlingRights
 from .Move import Move
-from .Maths import primes
-from .ThreadingUtils import Lock
-from .typing import Optional
+from Maths import primes
+from ThreadingUtils import Lock
+from typing import Optional
 
 class Board(chess.Board):
     def __init__(self, fen: Optional[str] = chess.STARTING_FEN, *, chess960: bool = False):
