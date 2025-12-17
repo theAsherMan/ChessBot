@@ -4,7 +4,7 @@ sys.path.append('..')
 from NN.Devices import available_devices
 import torch
 
-if torch.device('TPU') in available_devices:
+if torch.device('tpu') in available_devices:
     import torch_xla.core.xla_model as xm
 
 class OptimiserWraper:
