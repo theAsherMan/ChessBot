@@ -6,8 +6,8 @@ sys.path.append('..')
 
 from dataclasses import dataclass, field, fields
 
-from Board import Board
-from Move import Move
+from .Board import Board
+from .Move import Move
 
 @dataclass
 class Edge:
