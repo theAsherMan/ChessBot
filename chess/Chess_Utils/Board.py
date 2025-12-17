@@ -65,7 +65,7 @@ class _BoardHasher:
         for right in CastlingRights:
             keys.append(right)
         
-        self.mapping = {(key,prime) for key,prime in zip(keys,primes)}
+        self.mapping = {(key,prime) for key,prime in zip(keys,primes())}
     
     def __call__(self, board:Board):
         value = 1
