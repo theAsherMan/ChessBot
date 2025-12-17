@@ -1,7 +1,7 @@
 import sys
 sys.path.append('..')
 
-from .NN.Devices import available_devices
+from NN.Devices import available_devices
 import torch
 
 if torch.device('TPU') in available_devices:
