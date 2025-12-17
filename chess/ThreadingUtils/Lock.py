@@ -1,6 +1,6 @@
 import threading
 
-class Lock(threading.Lock):
+class Lock(type(threading.Lock())):
     def __enter__(self):
         self.acquire()
     
