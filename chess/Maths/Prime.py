@@ -50,7 +50,6 @@ def primeDecomposition(number:int):
     if number < 2:raise ValueError('numbers less than 2 cannot by prime or composite')
     return [factor for factor in _Prime_private.decompositionFactors(number)]
 
-@property
 def primes():
     idx = 0
     while True:
