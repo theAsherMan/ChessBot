@@ -1,7 +1,7 @@
 import sys
 sys.path.append('..')
 
-from .Modules import ConvolutionalLayer
+from NN.Modules import ConvolutionalLayer
 
 from .ResNet import ResNet
 
