@@ -7,10 +7,10 @@ import numpy as np
 from abc import ABC, abstractmethod
 from chess import Color,square,QUEEN,PAWN
 
-from Chess_Utils import Board,ChessGraph,Move
-from DSA import CircularStack
-from Models import SimpleUNet
-from NN.Devices import best_device
+from .Chess_Utils import Board,ChessGraph,Move
+from .DSA import CircularStack
+from .Models import SimpleUNet
+from .NN.Devices import best_device
 
 from typing import Optional
 

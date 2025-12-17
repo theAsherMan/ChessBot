@@ -1,9 +1,9 @@
 import sys
 sys.path.append('..')
 
-from Modules import ConvolutionalLayer
+from .Modules import ConvolutionalLayer
 
-from ResNet import ResNet
+from .ResNet import ResNet
 
 import torch
 from torch.nn import Module,Sequential
