@@ -6,7 +6,7 @@ from math import floor
 
 class ConvolutionalLayer(Module):
     def __init__(self, in_channels:int, out_channels:Optional[int] = None, k_size:Optional[int] = None, up_sample:bool = False, down_sample:bool = False, residual:Optional[bool] = None):
-        super().__init__()
+        
         if up_sample and down_sample:raise ValueError('convolutional layer cannot up-sample and down-sample')
 
         if k_size is None:
@@ -33,6 +33,7 @@ class ConvolutionalLayer(Module):
         self.k_size = k_size
         self.is_residual = residual
         
+        super().__init__()
         self.layers = nn.Sequential()
         if up_sample:
             self.layers.append(
