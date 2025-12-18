@@ -24,7 +24,7 @@ class ConvolutionalLayer(Module):
                 out_channels = in_channels
         
         if residual is None:
-            residual = not (up_sample or down_sample)
+            residual = not (up_sample or down_sample) and in_channels == out_channels
         
         assert((not residual) or not (up_sample or down_sample), 'residuals cannot be applyed to data that is reshaped')
         
