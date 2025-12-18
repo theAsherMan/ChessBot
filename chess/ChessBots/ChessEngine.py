@@ -79,7 +79,6 @@ class ZeroDepthEngine(ChessEngine):
 
     def new_game(self):
         self.start_pos = None
-        self.move_record = []
     
     def train(self, boards:list[Board], moves:list[Move], outcome:Outcome):
         if outcome.termination not in [Termination.CHECKMATE,Termination.STALEMATE]:return
@@ -94,5 +93,5 @@ class ZeroDepthEngine(ChessEngine):
             array[*move.decompose()] = value
             move_evals.append(array)
         
-        self.model.backward(boards=self.boards, move_eval=move_evals)
+        self.model.backward(boards=boards, move_eval=move_evals)
         self.model.save(self.save_loc)
