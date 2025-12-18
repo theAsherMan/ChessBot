@@ -98,7 +98,7 @@ class SimpleUNet(Module):
         self.train()
         move_preds = self.forward(boards)
         move_eval = torch.tensor(np.array(move_eval)).to(self.device)
-        move_loss = self.loss_fn(move_preds, move_eval)
+        move_loss = self.loss_fn(move_preds, move_eval.argmax(dim=1))
         self.optim.backward(move_loss)
         self.eval()
     

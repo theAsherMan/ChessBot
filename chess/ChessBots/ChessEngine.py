@@ -78,7 +78,7 @@ class ZeroDepthEngine(ChessEngine):
         self.start_pos = None
     
     def train(self, boards:list[Board], moves:list[Move], outcome:Outcome):
-        if outcome.termination not in [Termination.CHECKMATE,Termination.STALEMATE]:return
+        if outcome.termination is not Termination.CHECKMATE:return
         winner = outcome.winner
 
         move_evals:list[np.array] = []
@@ -86,7 +86,6 @@ class ZeroDepthEngine(ChessEngine):
             
             array = np.zeros((8,8,8,8))
             value = 1 if board.turn == winner else 0
-            value = 0.5 if winner is None else value
             array[*move.decompose()] = value
             move_evals.append(array)
         
