@@ -112,7 +112,7 @@ class SimpleUNet(Module):
     def save(self, file_url:str):
         path = Path(file_url)
         os.makedirs(path.parent, exist_ok=True)
-        with open('file_url','wb'):
+        with open(file_url,'wb'):
             pickle.dump(self, file_url)
     
     @classmethod
