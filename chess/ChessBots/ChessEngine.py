@@ -25,10 +25,13 @@ class ZeroDepthEngine(ChessEngine):
         self.save_loc = save_loc
         try:
             self.model = SimpleUNet.load(save_loc)
+            print(f'loaded model from {save_loc}')
         except EOFError:
             self.model = SimpleUNet(device=best_device, optimiser_type=torch.optim.Adam)
+            print(f'could not load model from {save_loc}.  generating new model')
         except FileNotFoundError:
             self.model = SimpleUNet(device=best_device, optimiser_type=torch.optim.Adam)
+            print(f'could not load model from {save_loc}.  generating new model')
     
     def makeMove(self, board:Board):
         def generateMoveMask(board:Board):
