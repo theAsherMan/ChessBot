@@ -39,6 +39,7 @@ class Tensorfier:
     def toTensor(self, board:Board):
         def tensorfyPosition(board:Board):
             tensor = torch.zeros((len(self),8,8))
+            print(f'initual position tensor shape {tensor.shape}')
             for square in SQUARES:
                 piece = board.piece_at(square)
                 if piece:
@@ -53,15 +54,18 @@ class Tensorfier:
                 rank = square_rank(ep_square)
                 file = square_file(ep_square)
                 tensor[:,rank,file] = encoding
+            print(f'final position tensor shape {tensor.shape}')
             return tensor
 
         def tensorfyRights(board:Board):
             tensor = torch.zeros((len(self)))
+            print(f'initual rights tensor shape {tensor.shape}')
             for right in CastlingRights:
                 if board.hasCastlingRight(right):
                     sub_tensor = [1 if attribute == right else 0 for attribute in self.attributes]
                     sub_tensor = torch.tensor(sub_tensor)
                     tensor += sub_tensor
+            print(f'final rights tensor shape {tensor.shape}')
             return tensor
 
         tensor = tensorfyPosition(board)+tensorfyRights(board)
