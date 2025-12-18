@@ -42,7 +42,7 @@ class ConvolutionalLayer(Module):
                     out_channels=out_channels,
                     kernel_size=(k_size,k_size),
                     stride=2,
-                    padding=k_size/2-1
+                    padding=int(k_size/2-1)
                 )
             )
         elif down_sample:
