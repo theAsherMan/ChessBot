@@ -46,7 +46,7 @@ class Tensorfier:
                     rank = square_rank(square)
                     file = square_file(square)
                     encoding = [1 if attribute == (colour,piece) else 0 for attribute in self.attributes]
-                    tensor[:,rank,file] = encoding
+                    tensor[:,rank,file] = torch.Tensor(encoding)
             ep_square = board.ep_square
             if ep_square:
                 encoding = [1 if attribute == 'ep' else 0 for attribute in self.attributes]
