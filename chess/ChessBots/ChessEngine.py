@@ -62,12 +62,7 @@ class ZeroDepthEngine(ChessEngine):
         def getPromotion(board:Board, move:Move):
             from_square = move.from_square
             piece =  board.piece_at(from_square)
-            print(f'moving piece: {piece}')
-            print(f'of piece type: {piece.piece_type}')
-            print(f'which is {'' if piece.piece_type == PAWN else 'not '}a pawn')
             if piece.piece_type != PAWN:return None
-            print('is PAWN, continuing')
-            sleep(1)
             to_square = move.to_square
             if square_rank(to_square) in [0, 7]:
                 return QUEEN
