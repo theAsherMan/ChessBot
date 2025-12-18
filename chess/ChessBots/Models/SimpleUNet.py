@@ -84,6 +84,7 @@ class SimpleUNet(Module):
         ).to(self.device)
         self.head = Perceptron(len(tensorfier)*8*8,8*8*8*8, drop_out=0.0).to(self.device)
         self.optim = OptimiserWraper(optimiser_type(self.parameters()), self.device)
+        self.loss_fn = nn.CrossEntropyLoss()
         self.eval()
     
     def forward(self, boards:list[Board]) -> Tensor:
@@ -93,10 +94,11 @@ class SimpleUNet(Module):
         data = self.head(data)
         return data
     
-    def backward(self, boards:list[Board], move_eval:Optional[list[np.ndarray]]):
+    def backward(self, boards:list[Board], move_eval:list[np.ndarray]):
         self.train()
         move_preds = self.forward(boards)
-        move_loss = nn.functional.cross_entropy(move_preds, torch.tensor(move_eval).to(self.device))
+        move_eval = torch.tensor(np.array(move_eval)).to(self.device)
+        move_loss = self.loss_fn(move_preds, move_eval)
         self.optim.backward(move_loss)
         self.eval()
     

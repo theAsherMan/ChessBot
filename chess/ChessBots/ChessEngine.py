@@ -52,8 +52,6 @@ class ZeroDepthEngine(ChessEngine):
                 return Move.recompose(*composition)
         
         def getPromotion(board:Board, move:Move):
-            print(f'moved piece {board.piece_at(move.from_square)}')
-            print(f'to rank {square_rank(move.to_square)}')
             from_square = move.from_square
             if board.piece_at(from_square) != PAWN:return None
             to_square = move.to_square
