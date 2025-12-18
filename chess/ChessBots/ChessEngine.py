@@ -5,7 +5,7 @@ import torch
 from torch import Tensor
 import numpy as np
 from abc import ABC, abstractmethod
-from chess import Color,square,QUEEN,PAWN
+from chess import Color,square,QUEEN,PAWN,square_rank,Outcome,Termination
 
 from Chess_Utils import Board,ChessGraph,Move
 from DSA import CircularStack
@@ -27,8 +27,6 @@ class ZeroDepthEngine(ChessEngine):
             self.model = SimpleUNet.load(save_loc)
         except FileNotFoundError:
             self.model = SimpleUNet(device=best_device, optimiser_type=torch.optim.Adam)
-        self.boards:list[Board] = []
-        self.moves:list[Move] = []
     
     def makeMove(self, board:Board):
         def generateMoveMask(board:Board):
@@ -52,6 +50,18 @@ class ZeroDepthEngine(ChessEngine):
                 choice = np.argmax(array)
                 composition = np.unravel_index(choice, (8,8,8,8))
                 return Move.recompose(*composition)
+        
+        def getPromotion(board:Board, move:Move):
+            from_square = move.from_square
+            piece = board.piece_at(from_square)
+            to_square = move.to_square
+            to_rank = square_rank(to_square)
+            if piece == PAWN:
+                if to_rank == 0 or to_rank == 7:
+                    return QUEEN
+            return None
+        
+
         turn = board.turn
         if turn:
             board = board.mirror()
@@ -60,6 +70,8 @@ class ZeroDepthEngine(ChessEngine):
         pred = pred.squeeze()
         mask = generateMoveMask(board)
         move = extractMove(pred, mask, stockastic=True)
+        promotion = getPromotion(board, move)
+        move.promotion = promotion
         if turn:
             move.apply_mirror()
         return move
@@ -69,14 +81,17 @@ class ZeroDepthEngine(ChessEngine):
         self.start_pos = None
         self.move_record = []
     
-    def train(self, winner:Optional[Color]):
-        if winner is None:return
+    def train(self, boards:list[Board], moves:list[Move], outcome:Outcome):
+        if outcome.termination not in [Termination.CHECKMATE,Termination.STALEMATE]:return
+        winner = outcome.winner
 
         move_evals:list[np.array] = []
-        for board,move in zip(self.boards,self.moves):
+        for board,move in zip(boards, moves):
             
             array = np.zeros((8,8,8,8))
-            array[*move.decompose()] = 1
+            value = 1 if board.turn == winner else 0
+            value = 0.5 if winner is None else value
+            array[*move.decompose()] = value
             move_evals.append(array)
         
         self.model.backward(boards=self.boards, move_eval=move_evals)
