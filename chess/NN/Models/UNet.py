@@ -22,7 +22,7 @@ class UNet(Module):
             self.up_pass_res_net = ResNet(channels, sub_net_depth)
             
 
-    def forward(self, data:Tensor):
+    def forward(self, data:Tensor) -> Tensor:
         data = self.down_pass_res_net(data)
         if self.is_base:
             return data

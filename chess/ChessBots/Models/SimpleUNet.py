@@ -89,6 +89,7 @@ class SimpleUNet(Module):
     def forward(self, boards:list[Board]) -> Tensor:
         data = tensorfier.toBatch(boards).to(self.device)
         data = self.model(data)
+        data = torch.flatten(data, start_dim=1)
         data = self.head(data)
         return data
     
