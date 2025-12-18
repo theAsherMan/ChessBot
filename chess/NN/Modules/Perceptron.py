@@ -7,6 +7,8 @@ class Perceptron(Module):
     def __init__(self, in_dim:int, out_dim:Optional[int] = None, drop_out:float = 0.5, residual:Optional[bool] = None):
         super().__init__()
 
+        self.drop_out = drop_out
+
         if out_dim is None:
             out_dim = in_dim
         
@@ -16,14 +18,14 @@ class Perceptron(Module):
         self.is_residual = residual
         
         hid_dim = round((2/3)*in_dim+out_dim)
-        
-        self.layers = nn.Sequential(
-            nn.Linear(in_dim, hid_dim),
-            nn.GELU(),
-            nn.Linear(hid_dim, out_dim),
-            nn.GELU(),
-            nn.Dropout(drop_out)
-        )
+
+        self.in_layer = nn.Linear(in_dim, hid_dim)
+        self.out_layer = nn.Linear(hid_dim, out_dim)
     
     def forward(self, data:Tensor):
-        return data+self.layers(data) if self.is_residual else self.layers(data)
+        data = self.in_layer(data)
+        data = nn.functional.gelu(data)
+        data = self.out_layer(data)
+        data = nn.functional.gelu(data)
+        data = nn.functional.dropout(data, p=self.drop_out)
+        return data
