@@ -42,7 +42,7 @@ class ZeroDepthEngine(ChessEngine):
             move_mask = move_mask.flatten()
             tensor = move_logits + move_mask
             if stockastic:
-                tensor = torch.nn.functional.softmax(tensor)
+                tensor = torch.nn.functional.softmax(tensor, dim=0)
                 array = tensor.cpu().numpy()
                 choice = np.random.choice(len(array), p=array)
                 composition = np.unravel_index(choice, (8,8,8,8))

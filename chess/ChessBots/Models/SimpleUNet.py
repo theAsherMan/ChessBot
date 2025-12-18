@@ -52,7 +52,7 @@ class Tensorfier:
                 encoding = [1 if attribute == 'ep' else 0 for attribute in self.attributes]
                 rank = square_rank(ep_square)
                 file = square_file(ep_square)
-                tensor[:,rank,file] = encoding
+                tensor[:,rank,file] = torch.Tensor(encoding)
             return tensor
 
         def tensorfyRights(board:Board):
