@@ -41,7 +41,5 @@ class _SubNet(UNet):
     def forward(self, data:Tensor):
         data = self.down_sampler(data)
         data = super().forward(data)
-        print(f'shape before upsample {data.shape}')
         data = self.up_sampler(data)
-        print(f'shape after up sample {data.shape}')
         return data
