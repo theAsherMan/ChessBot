@@ -24,6 +24,7 @@ class ZeroDepthEngine(ChessEngine):
     def __init__(self, save_loc:str):
         self.save_loc = save_loc
         try:
+            raise EOFError()
             self.model = SimpleUNet.load(save_loc)
             print(f'loaded model from {save_loc}')
         except EOFError:
