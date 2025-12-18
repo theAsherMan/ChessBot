@@ -14,6 +14,8 @@ from NN.Devices import best_device
 
 from typing import Optional
 
+from time import sleep
+
 class ChessEngine(ABC):
     @abstractmethod
     def makeMove(self, board:Board):
@@ -62,6 +64,7 @@ class ZeroDepthEngine(ChessEngine):
             if board.piece_at(from_square) != PAWN:return None
             to_square = move.to_square
             print(f'moving pawn to rank {square_rank(to_square)}')
+            sleep(5)
             if square_rank(to_square) in [0, 7]:
                 return QUEEN
             return None
