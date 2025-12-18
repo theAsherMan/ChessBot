@@ -52,15 +52,14 @@ class ZeroDepthEngine(ChessEngine):
                 return Move.recompose(*composition)
         
         def getPromotion(board:Board, move:Move):
+            print(f'moved piece {board.piece_at(move.from_square)}')
+            print(f'to rank {square_rank(move.to_square)}')
             from_square = move.from_square
-            piece = board.piece_at(from_square)
+            if board.piece_at(from_square) != PAWN:return None
             to_square = move.to_square
-            to_rank = square_rank(to_square)
-            if piece == PAWN:
-                if to_rank == 0 or to_rank == 7:
-                    return QUEEN
+            if square_rank(to_square) in [0, 7]:
+                return QUEEN
             return None
-        
 
         turn = board.turn
         if turn:
