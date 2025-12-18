@@ -27,6 +27,10 @@ class Board(chess.Board):
                 pass
             def __exit__(self, exc_type, exc_value, traceback):
                 self.board.pop()
+        if chess.square_rank(move.to_square) in [0,7]:
+            if self.piece_at(move.to_square) == chess.PAWN:
+                if not move.promotion:
+                    raise AssertionError('cannot move pawn to back rank and not promote')
         super().push(move)
         return MoveHandler(self)
 
