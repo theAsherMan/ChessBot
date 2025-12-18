@@ -100,10 +100,10 @@ class SimpleUNet(Module):
         move_preds = move_preds.flatten(start_dim=1)
         move_eval = torch.tensor(np.array(move_eval)).to(self.device)
         move_eval = move_eval.flatten(start_dim=1)
+        print(f'move_eval_logits:{move_eval}')
         move_eval = move_eval.argmax(dim=1)
-        print(f'move predictiona:{move_preds}')
-        print(f'move lable:{move_eval}')
-        move_loss = self.loss_fn(move_preds, move_eval.argmax(dim=1))
+        print(f'move_eval_argmax:{move_eval}')
+        move_loss = self.loss_fn(move_preds, move_eval)
         self.optim.backward(move_loss)
         self.eval()
     
