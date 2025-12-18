@@ -97,14 +97,10 @@ class SimpleUNet(Module):
     def backward(self, boards:list[Board], move_eval:list[np.ndarray]):
         self.train()
         move_preds = self.forward(boards)
-        print(f'preds shape:{move_preds.shape}')
-        print(f'eval shape:{move_eval}')
         move_preds = move_preds.flatten(start_dim=1)
         move_eval = torch.tensor(np.array(move_eval)).to(self.device)
         move_eval = move_eval.flatten(start_dim=1)
-        print(f'move_eval_logits:{move_eval}')
         move_eval = move_eval.argmax(dim=1)
-        print(f'move_eval_argmax:{move_eval}')
         move_loss = self.loss_fn(move_preds, move_eval)
         self.optim.backward(move_loss)
         self.eval()
@@ -112,8 +108,8 @@ class SimpleUNet(Module):
     def save(self, file_url:str):
         path = Path(file_url)
         os.makedirs(path.parent, exist_ok=True)
-        with open(file_url,'wb'):
-            pickle.dump(self, file_url)
+        with open(file_url,'wb') as file:
+            pickle.dump(self, file)
     
     @classmethod
     def load(cls, file_url:str):
