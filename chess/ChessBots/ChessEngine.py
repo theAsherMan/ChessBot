@@ -65,7 +65,6 @@ class ZeroDepthEngine(ChessEngine):
             print(f'moving piece: {piece}')
             print(f'of piece type: {piece.piece_type}')
             print(f'which is {'' if piece.piece_type == PAWN else 'not '}a pawn')
-            sleep(1)
             if piece.piece_type != PAWN:return None
             print('is PAWN, continuing')
             sleep(1)
