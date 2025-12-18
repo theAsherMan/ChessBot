@@ -25,7 +25,7 @@ class ZeroDepthEngine(ChessEngine):
         self.save_loc = save_loc
         try:
             self.model = SimpleUNet.load(save_loc)
-        except FileNotFoundError:
+        except EOFError|FileNotFoundError:
             self.model = SimpleUNet(device=best_device, optimiser_type=torch.optim.Adam)
     
     def makeMove(self, board:Board):
