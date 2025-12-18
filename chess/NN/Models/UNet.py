@@ -27,8 +27,6 @@ class UNet(Module):
         if self.is_base:
             return data
         up_data = self.sub_net(data)
-        print(f'data shape {data.shape}')
-        print(f'up data shape {up_data.shape}')
         data = torch.cat((data,up_data),dim=1)
         data = self.compressor(data)
         data = self.up_pass_res_net(data)
@@ -43,5 +41,7 @@ class _SubNet(UNet):
     def forward(self, data:Tensor):
         data = self.down_sampler(data)
         data = super().forward(data)
+        print(f'shape before upsample {data.shape}')
         data = self.up_sampler(data)
+        print(f'shape after up sample {data.shape}')
         return data
