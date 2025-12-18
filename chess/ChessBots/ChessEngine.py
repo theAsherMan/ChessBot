@@ -33,7 +33,7 @@ class ZeroDepthEngine(ChessEngine):
     def makeMove(self, board:Board):
         def extractMove(tensor:Tensor,stockastic:bool):
             if stockastic:
-                array = tensor.numpy()
+                array = tensor.cpu().numpy()
                 array = array.flatten()
                 array = array / np.sum(array)
                 choice = np.random.choice(len(array), p=array)
