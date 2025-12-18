@@ -82,7 +82,7 @@ class SimpleUNet(Module):
             half_depth=log2(8),
             sub_net_depth=5
         ).to(self.device)
-        self.head = Perceptron(len(tensorfier)*8*8,8*8*8*8, drop_out=0.0)
+        self.head = Perceptron(len(tensorfier)*8*8,8*8*8*8, drop_out=0.0).to(self.device)
         self.optim = OptimiserWraper(optimiser_type(self.parameters()), self.device)
         self.eval()
     
