@@ -97,6 +97,8 @@ class SimpleUNet(Module):
     def backward(self, boards:list[Board], move_eval:list[np.ndarray]):
         self.train()
         move_preds = self.forward(boards)
+        print(f'preds shape:{move_preds.shape}')
+        print(f'eval shape:{move_eval}')
         move_preds = move_preds.flatten(start_dim=1)
         move_eval = torch.tensor(np.array(move_eval)).to(self.device)
         move_eval = move_eval.flatten(start_dim=1)
