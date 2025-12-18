@@ -57,6 +57,7 @@ class ZeroDepthEngine(ChessEngine):
             from_square = move.from_square
             if board.piece_at(from_square) != PAWN:return None
             to_square = move.to_square
+            print(f'moving pawn to rank {square_rank(to_square)}')
             if square_rank(to_square) in [0, 7]:
                 return QUEEN
             return None
@@ -69,8 +70,7 @@ class ZeroDepthEngine(ChessEngine):
         pred = pred.squeeze()
         mask = generateMoveMask(board)
         move = extractMove(pred, mask, stockastic=True)
-        promotion = getPromotion(board, move)
-        move.promotion = promotion
+        move.promotion = getPromotion(board, move)
         if turn:
             move.apply_mirror()
         return move
@@ -86,6 +86,8 @@ class ZeroDepthEngine(ChessEngine):
         move_evals:list[np.array] = []
         for board,move in zip(boards, moves):
             
+            if sum(move.decompose()) == 0:
+                raise AssertionError('null move in game')
             array = np.zeros((8,8,8,8))
             value = 1 if board.turn == winner else 0
             array[*move.decompose()] = value
