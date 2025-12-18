@@ -33,9 +33,9 @@ class ZeroDepthEngine(ChessEngine):
     def makeMove(self, board:Board):
         def extractMove(tensor:Tensor,stockastic:bool):
             if stockastic:
+                tensor = tensor.flatten()
+                tensor = torch.nn.functional.softmax(tensor)
                 array = tensor.cpu().numpy()
-                array = array.flatten()
-                array = array / np.sum(array)
                 choice = np.random.choice(len(array), p=array)
                 composition = np.unravel_index(choice, (8,8,8,8))
                 return Move.recompose(*composition)
