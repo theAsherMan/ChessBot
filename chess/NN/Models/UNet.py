@@ -26,7 +26,10 @@ class UNet(Module):
         data = self.down_pass_res_net(data)
         if self.is_base:
             return data
-        data = torch.cat((data,self.sub_net(data)),dim=1)
+        up_data = self.sub_net(data)
+        print(f'data shape {data.shape}')
+        print(f'up data shape {up_data.shape}')
+        data = torch.cat((data,up_data),dim=1)
         data = self.compressor(data)
         data = self.up_pass_res_net(data)
         return data
