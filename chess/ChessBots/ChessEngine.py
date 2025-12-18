@@ -31,24 +31,35 @@ class ZeroDepthEngine(ChessEngine):
         self.moves:list[Move] = []
     
     def makeMove(self, board:Board):
-        def extractMove(tensor:Tensor,stockastic:bool):
+        def generateMoveMask(board:Board):
+            mask = torch.full((8,8,8,8), float('-inf'), device=best_device)
+            for move in board.legal_moves:
+                mask[*move.decompose()] = 0
+            return mask
+        
+        def extractMove(move_logits:Tensor,move_mask:Tensor,stockastic:bool):
+            move_logits = move_logits.flatten()
+            move_mask = move_mask.flatten()
+            tensor = move_logits + move_mask
             if stockastic:
-                tensor = tensor.flatten()
                 tensor = torch.nn.functional.softmax(tensor)
                 array = tensor.cpu().numpy()
                 choice = np.random.choice(len(array), p=array)
                 composition = np.unravel_index(choice, (8,8,8,8))
                 return Move.recompose(*composition)
             else:
-                pass
-                #TODO
+                array = tensor.cpu().numpy()
+                choice = np.argmax(array)
+                composition = np.unravel_index(choice, (8,8,8,8))
+                return Move.recompose(*composition)
         turn = board.turn
         if turn:
             board = board.mirror()
         with torch.no_grad():
             pred = self.model.forward([board])
         pred = pred.squeeze()
-        move = extractMove(pred, stockastic=True)
+        mask = generateMoveMask(board)
+        move = extractMove(pred, mask, stockastic=True)
         if turn:
             move.apply_mirror()
         return move
