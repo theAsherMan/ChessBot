@@ -90,14 +90,16 @@ class ZeroDepthEngine(ChessEngine):
         winner = outcome.winner
 
         move_evals:list[np.array] = []
+        trained_boards = []
         for board,move in zip(boards, moves):
-            
-            if sum(move.decompose()) == 0:
-                raise AssertionError('null move in game')
-            array = np.zeros((8,8,8,8))
-            value = 1 if board.turn == winner else 0
-            array[*move.decompose()] = value
-            move_evals.append(array)
+            if board.turn == winner:
+                if board.turn:
+                    board.apply_mirror()
+                    move.apply_mirror()
+                array = np.zeros((8,8,8,8))
+                array[*move.decompose()] = 1
+                trained_boards.append(board)
+                move_evals.append(array)
         
-        self.model.backward(boards=boards, move_eval=move_evals)
+        self.model.backward(boards=trained_boards, move_eval=move_evals)
         self.model.save(self.save_loc)
